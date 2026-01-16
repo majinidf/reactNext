@@ -4,30 +4,22 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import styles from './index.module.scss';
 
-export type StatusType = 
-  | 'Planned'
-  | 'InProgress'
-  | 'QA'
-  | 'Blocked'
-  | 'Done';
-;
+type StatusType = "Planned" | "InProgress" | "Defer" | "Done" | "QA" | "Blocked";
 
-export interface FILE_ITEM {
-  id: string;
+interface FILE_ITEM {
   title: string;
   level: number;
-  url: string;
+  url?: string;
   status: StatusType;
-  completedDate?: string;
+  completDate?: string;
   updateDate?: string;
-  note?: string;
+  note?: string[];
 }
 
-export interface FILE_LIST_TYPE {
+interface FILE_LIST {
   category: string;
   list: FILE_ITEM[];
 }
-
 
 export default function PublishList(): JSX.Element{
   const FILE_LIST_DATA: FILE_LIST_TYPE[] = [
@@ -42,7 +34,7 @@ export default function PublishList(): JSX.Element{
           status: 'Planned',
           completedDate: '2025-12-25',
           updateDate: '2025-12-30',
-          note: '테스트'
+          note: ['테스트'],
         },
         {
           id: 'common_2',
@@ -52,7 +44,7 @@ export default function PublishList(): JSX.Element{
           status: 'InProgress',
           completedDate: '2025-12-25',
           updateDate: '2025-12-30',
-          note: '테스트 테스트 테스트테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 ㅍ 테스트 테스트테스트테스트테스트 테스트 테스트 테스트'
+          note: ['테스트 테스트 테스트테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 ㅍ 테스트 테스트테스트테스트테스트 테스트 테스트 테스트']
         },
         {
           id: 'common_3',
@@ -72,7 +64,7 @@ export default function PublishList(): JSX.Element{
           status: 'Done',
           completedDate: '2025-12-25',
           updateDate: '2025-12-30',
-          note: '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890'
+          note: ['12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890']
         }
       ]
     }
@@ -90,25 +82,37 @@ export default function PublishList(): JSX.Element{
   return (
     <>
       <section className={styles["container"]}>
-        <h1 className={styles["title"]}>PublishFiles</h1>
+        <h1 className="sr-only">Publish Files</h1>
 
-        {FILE_LIST_DATA.map((data, idx) => (
+        {PublishData.map((data, idx) => (
           <article className={styles["wrapper"]} key={`cate_${idx}`}>
             <h2 className={styles["stile"]}>{data.category}</h2>
-
             <ul className={styles["list"]}>
               {data.list.map((item, index) => (
-                <li>
+                <li className={`${styles["item_level_" + item.level]}`}>
                   <h3 className={styles["item-title"]}>{item.title}</h3>
                   <div className={styles["item-content"]}>
-                    <p className={`${styles["item-status"]} ${styles[item.status]}`}>{item.status === 'InProgress' ? 'In Progress' : item.status}</p>
-                    <Link className={styles["item-link"]} href={item.url} >{item.url}</Link>
-                    <p>Completed Date : <time>{item.completedDate}</time></p>
-                    <p>Update Date : <time>{item.updateDate}</time></p>
-                    <div className={styles["item-note"]}>
-                      Note : <p className={clampMap[item.id] ? '' : "line-clamp-1"}>{item.note}</p>
-                      <button type="button" onClick={()=>handleClamp(item.id)} className="button-more">{!clampMap[item.id] ? '더보기' : '감추기' }</button>
-                    </div>
+                    <p className={`${styles["item-status"]} ${styles[item.status]}`}>
+                      {item.status === "InProgress" ? "In Progress" : item.status}
+                    </p>
+                    <Link className={styles["item-link"]} href={`${item.url}`} target="_blank">
+                      {item.url}
+                    </Link>
+                    {item.completDate && (
+                      <p>
+                        Completed Date : <time data-time="">{item.completDate}</time>
+                      </p>
+                    )}
+                    {item.updateDate && (
+                      <p>
+                        Update Date : <time>{item.updateDate}</time>
+                      </p>
+                    )}
+                    {item.note && (
+                      <div className={styles["item-note"]}>
+                        Note : <p>{item.note}</p>
+                      </div>
+                    )}
                   </div>
                 </li>
               ))}
