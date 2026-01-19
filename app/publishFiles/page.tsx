@@ -13,7 +13,7 @@ interface FILE_ITEM {
   status: StatusType;
   completDate?: string;
   updateDate?: string;
-  note?: string[];
+  notes?: string[];
 }
 
 interface FILE_LIST {
@@ -34,7 +34,7 @@ export default function PublishList(): JSX.Element{
           status: 'Planned',
           completedDate: '2025-12-25',
           updateDate: '2025-12-30',
-          note: ['테스트'],
+          notes: ['신규', '테스트'],
         },
         {
           id: 'common_2',
@@ -44,7 +44,7 @@ export default function PublishList(): JSX.Element{
           status: 'InProgress',
           completedDate: '2025-12-25',
           updateDate: '2025-12-30',
-          note: ['테스트 테스트 테스트테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 ㅍ 테스트 테스트테스트테스트테스트 테스트 테스트 테스트']
+          notes: ['테스트 테스트 테스트테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 ㅍ 테스트 테스트테스트테스트테스트 테스트 테스트 테스트']
         },
         {
           id: 'common_3',
@@ -54,7 +54,7 @@ export default function PublishList(): JSX.Element{
           status: 'Done',
           completedDate: '2025-12-25',
           updateDate: '2025-12-30',
-          note: '테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트'
+          notes: '테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트'
         },
         {
           id: 'common_4',
@@ -64,7 +64,7 @@ export default function PublishList(): JSX.Element{
           status: 'Done',
           completedDate: '2025-12-25',
           updateDate: '2025-12-30',
-          note: ['12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890']
+          notes: ['12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890']
         }
       ]
     }
@@ -108,9 +108,12 @@ export default function PublishList(): JSX.Element{
                         Update Date : <time>{item.updateDate}</time>
                       </p>
                     )}
-                    {item.note && (
-                      <div className={styles["item-note"]}>
-                        Note : <p>{item.note}</p>
+                    {item.notes && (
+                      <div className={styles["item-notes"]}>
+                        Note :{" "}
+                        {item.notes.map((note) => (
+                          <p className={note === "신규" ? "text-red-600" : ""}>{note}</p>
+                        ))}
                       </div>
                     )}
                   </div>
