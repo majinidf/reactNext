@@ -108,11 +108,20 @@ export default function PublishList(): JSX.Element{
                         Update Date : <time>{item.updateDate}</time>
                       </p>
                     )}
-                    {item.notes && (
+                    {!!item.notes?.some((note) => note?.trim()) && (
                       <div className={styles["item-notes"]}>
-                        Note :{" "}
                         {item.notes.map((note) => (
-                          <p className={note === "신규" ? "text-red-600" : ""}>{note}</p>
+                          <p
+                            className={
+                              note.includes("신규")
+                                ? "text-red-600 font-bold"
+                                : note.includes("백엔드확인")
+                                  ? "text-blue-700 font-bold"
+                                  : ""
+                            }
+                          >
+                            {note}
+                          </p>
                         ))}
                       </div>
                     )}
