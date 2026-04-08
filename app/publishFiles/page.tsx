@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from "@/utils/cn";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import styles from './index.module.scss';
@@ -84,11 +85,15 @@ export default function PublishList() {
               {data.list.map((item, index) => (
                 <li
                   key={index}
-                  className={`${styles["item_level_" + item.level]} ${item.status === "Blocked" && styles["item-blocked"]} ${item.status === "Defer" && styles["item-defer"]}`}
+                  className={cn(
+                    styles[`item_level_${item.level}`],
+                    item.status === "Blocked" && styles["item-blocked"],
+                    item.status === "Defer" && styles["item-defer"],
+                  )}
                 >
                   <h3 className={styles["item-title"]}>{item.title}</h3>
                   <div className={styles["item-content"]}>
-                    <p className={`${styles["item-status"]} ${styles[item.status]}`}>
+                    <p className={cn(styles["item-status"], styles[`${item.status}`])}>
                       {item.status === "InProgress" ? "In Progress" : item.status}
                     </p>
                     <Link className={styles["item-link"]} href={`${item.url}`} target="_blank">
