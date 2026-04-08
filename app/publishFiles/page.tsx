@@ -7,6 +7,7 @@ import styles from './index.module.scss';
 type StatusType = "Planned" | "InProgress" | "Defer" | "Done" | "QA" | "Blocked";
 
 interface FILE_ITEM {
+  state?: string;
   title: string;
   level: number;
   url?: string;
@@ -21,8 +22,7 @@ interface FILE_LIST {
   list: FILE_ITEM[];
 }
 
-export default function PublishList(): JSX.Element{
-  const FILE_LIST_DATA: FILE_LIST_TYPE[] = [
+const PublishData: FILE_LIST_TYPE[] = [
     {
       category: 'COMMON',
       list: [
@@ -70,17 +70,10 @@ export default function PublishList(): JSX.Element{
     }
   ]
 
-  const [clampMap, setClampMap] = useState<Record<string,boolean>>({});
-
-  const handleClamp = (id: string): void => {
-    setClampMap(prev => ({
-      ...prev,
-      [id]: !prev[id]
-    }));
-  };
-
+export default function PublishList() {
   return (
     <>
+      <Header showPrev={true} showTitle="Publish List" />
       <section className={styles["container"]}>
         <h1 className="sr-only">Publish Files</h1>
 
@@ -89,7 +82,10 @@ export default function PublishList(): JSX.Element{
             <h2 className={styles["stile"]}>{data.category}</h2>
             <ul className={styles["list"]}>
               {data.list.map((item, index) => (
-                <li className={`${styles["item_level_" + item.level]}`}>
+                <li
+                  key={index}
+                  className={`${styles["item_level_" + item.level]} ${item.status === "Blocked" && styles["item-blocked"]} ${item.status === "Defer" && styles["item-defer"]}`}
+                >
                   <h3 className={styles["item-title"]}>{item.title}</h3>
                   <div className={styles["item-content"]}>
                     <p className={`${styles["item-status"]} ${styles[item.status]}`}>
@@ -133,7 +129,7 @@ export default function PublishList(): JSX.Element{
         ))}
       </section>
     </>
-  )
+  );
 }
 
 
