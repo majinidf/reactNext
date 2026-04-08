@@ -51,7 +51,7 @@
 
   $level-pl: 10;
   .item_level_1 .item-title {
-    padding-left: $level-pl;
+    padding-left: calc($level-pl * 1px);
 
     &::before {
       content: none;
@@ -62,6 +62,22 @@
   }
   .item_level_3 .item-title {
     padding-left: calc($level-pl * 3px);
+
+    &::before {
+      color: gray;
+    }
+  }
+
+  .item_level_4 .item-title {
+    padding-left: calc($level-pl * 4px);
+
+    &::before {
+      color: gray;
+    }
+  }
+
+  .item_level_5 .item-title {
+    padding-left: calc($level-pl * 5px);
 
     &::before {
       color: gray;
@@ -113,11 +129,11 @@
   }
 
   .item-link,
-  .item-note {
+  .item-notes {
     grid-column: 1 / -1;
   }
 
-  .item-note {
+  .item-notes {
     padding: 10px;
     margin: 10px 0 0;
     background: #f1f1f1;
@@ -127,5 +143,12 @@
       word-break: keep-all;
       overflow-wrap: break-word;
     }
+  }
+
+  .item-blocked {
+    opacity: 0.9;
+  }
+  .item-defer {
+    opacity: 0.9;
   }
 }
